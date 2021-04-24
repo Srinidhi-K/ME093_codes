@@ -23,7 +23,7 @@ delta_t = 0.1            #time step taken for each loop
 for i in range(20):
     sample_time.append(round(sample_time[i]+delta_t,2))    #Array of time samples
     thrust = a - b*v_h    #Thrust as a function of velocity
-    drag = 0.5*density*Cl*S*v_h**2    #Drag force
+    drag = 0.5*density*Cd*S*v_h**2    #Drag force
     lift = 0.5*density*Cl*S*v_h**2    #Lift force
 
     # For tracking the variation of horizontal distance
