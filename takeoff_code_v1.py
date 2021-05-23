@@ -3,8 +3,8 @@ takeoff_height = 0.61     #take-off height above the ground in m
 a = 77.8                  #First Coefficient in the Thrust Equation
 b = 2.4                   #Second Coefficient in the Thrust Equation
 density = 1.225           #Density of Air in kg/m^3
-Cl = [0.5,0.6,0.7,0.8]                  #Lift Coefficient
-Cd = [0.1,0.2,0.3,0.4]                  #Drag Coefficient
+Cl = [0.4]                #Lift Coefficient
+Cd = [0.03]               #Drag Coefficient
 span = 1                  #wing span in m
 chord = 0.16              #Chord of the wing
 S = chord*span            #Wing Planform Area in m^2
@@ -16,8 +16,8 @@ roll_resistance = 9.81*weight*coeff_friction      #total rolling resistance (lif
 v_wind = 0                #Positve if head wind and negative if tail wind
 v_h = v_wind              #horizontal velocity in m/s
 v_v = 0                   #vertical velocity in m/s
-delta_t = 0.01            #time step taken for each loop
-t_start=0
+delta_t = 0.1            #time step taken for each loop
+t_start = 0
 t_end = 12
 time_array=[]
 
@@ -57,23 +57,25 @@ while j<len(Cl) and k<len(Cd):
 
             if lift <= weight and x_coordinate[i] <= max_takeoff_dist:
                 y_coordinate.append(takeoff_height)
-            elif (lift > weight or x_coordinate[i] > max_takeoff_dist) and y_coordinate[i]>0:
-                acc_v = (lift-weight)/mass    #Acceleration in vertical direction
+            elif (lift > weight or x_coordinate[i] > max_takeoff_dist) and y_coordinate[i]>=0:
+                acc_v = (lift-weight)/mass             #Acceleration in vertical direction
                 v_v = v_v + acc_v*delta_t
                 y_coordinate.append(round(y_coordinate[i]+v_v*delta_t,2))
             else:
                 y_coordinate.append(0.00)
-                break
 
+    # time_array_new = time_array[:len(y_coordinate)]
     plt.figure(1)
     plt.plot(x_coordinate,time_array)
     plt.xlim(0.00,91.00)
-    plt.ylim(0.00,10.00)
+    plt.ylim(0.00,12.00)
     plt.ylabel('Time (in s)')
     plt.xlabel('Horizontal Distance (in m)')
     plt.grid(True)
     plt.figure(2)
     plt.plot(x_coordinate,y_coordinate)
+    plt.xlim(0.00, 7.00)
+    plt.ylim(0.00, 7.00)
     plt.xlabel('Horizontal Distance (in m)')
     plt.ylabel('Vertical Height (in m)')
     plt.grid(True)
